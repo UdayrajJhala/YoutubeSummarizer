@@ -16,7 +16,7 @@ def get_video_id(youtube_url):
 def get_transcript(video_id):
 
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        transcript = YouTubeTranscriptApi.get_transcript(video_id,languages=['en','en-US'])
         return transcript
     except TranscriptsDisabled:
         raise RuntimeError("Subtitles are disabled for this video.")

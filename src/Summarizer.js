@@ -1,52 +1,58 @@
+// src/Summarizer.js
 import React, { useState } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import "./Summarizer.css";
 
-const Summarizer = () => {
-  const [url, setUrl] = useState("");
+function Summarizer() {
+  const [youtubeUrl, setYoutubeUrl] = useState("");
   const [summary, setSummary] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSummary("");
+
     try {
       const response = await axios.post("http://localhost:5000/summarize", {
-        youtube_url: url,
+        youtube_url: youtubeUrl,
       });
       setSummary(response.data.summary);
-      setError("");
     } catch (err) {
-      setError(err.response ? err.response.data.error : "An error occurred");
-      setSummary("");
+      console.log(err);
+      setError("An error occurred while summarizing the video.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>YouTube Video Summarizer</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter YouTube URL"
+          value={youtubeUrl}
+          onChange={(e) => setYoutubeUrl(e.target.value)}
           required
         />
-        <button type="submit">Summarize</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Summarizing..." : "Summarize"}
+        </button>
       </form>
+      {error && <div className="error">{error}</div>}
       {summary && (
-        <div>
+        <div className="summary">
           <h2>Summary:</h2>
-          <p>{summary}</p>
-        </div>
-      )}
-      {error && (
-        <div>
-          <h2>Error:</h2>
-          <p>{error}</p>
+          <ReactMarkdown>{summary}</ReactMarkdown>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default Summarizer;

@@ -3,7 +3,7 @@ import Summarizer from "./Summarizer";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Summarizer />
     </div>
   );

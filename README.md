@@ -1,6 +1,6 @@
 # YouTube Summarizer
 
-A web application that generates summaries of YouTube videos using their transcripts. The backend is powered by Flask, and the frontend is built with React. It uses gemini 1.5 flash API to summarize.
+A web application that generates summaries of YouTube videos, taking the video links as input. The backend is powered by Flask, and the frontend is built with React. It uses gemini 1.5 flash API to summarize the transcript.
 
 ## Getting Started
 
